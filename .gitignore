@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/Users/MacbookNikita/Documents/projects/RSS-react/src/assets/empty.scss

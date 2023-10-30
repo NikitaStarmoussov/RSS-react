@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint ./src --fix",
     "preview": "vite preview",
-    "format": "prettier --write **/*.{scss,ts}",
+    "format:fix": "prettier --write **/*.{scss,ts}",
     "prepare": "husky install"
   },
   "dependencies": {
