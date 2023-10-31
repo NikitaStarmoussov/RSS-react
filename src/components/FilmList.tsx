@@ -8,7 +8,6 @@ interface FilmListProps {
   searchQuery: string;
   isLoading: boolean;
   onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const FilmList: React.FC<FilmListProps> = ({
@@ -16,7 +15,7 @@ const FilmList: React.FC<FilmListProps> = ({
   searchQuery,
   isLoading,
   onSearchChange,
-  onSearchSubmit,
+  
 }) => {
   const filteredFilms = films.filter((film) =>
     film.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -25,11 +24,11 @@ const FilmList: React.FC<FilmListProps> = ({
   return (
     <div>
       <SearchForm
-        searchQuery={searchQuery}
-        isLoading={isLoading}
-        onSearchChange={onSearchChange}
-        onSearchSubmit={onSearchSubmit}
-      />
+  searchQuery={searchQuery}
+  isLoading={isLoading}
+  onSearchChange={onSearchChange}
+  
+/>
       {filteredFilms.length > 0 ? (
         <ul>
           {filteredFilms.map((film) => (

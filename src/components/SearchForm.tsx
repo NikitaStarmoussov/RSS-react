@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 
 interface SearchFormProps {
-  onSearchSubmit: (searchQuery: string) => void;
+    searchQuery: string,
+    isLoading: boolean, 
+    onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit }) => {
+const SearchForm: React.FC<SearchFormProps> = ({isLoading}) => {
   const [searchQuery, setSearchQuery] = React.useState('');
 
   useEffect(() => {
@@ -16,27 +18,24 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchSubmit }) => {
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
+    if (searchQuery.trim() === '') {
+        localStorage.removeItem('searchQuery');
+      } else {
+        localStorage.setItem('searchQuery', searchQuery);
+      }
   };
 
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (searchQuery.trim() === '') {
-      localStorage.removeItem('searchQuery');
-    } else {
-      localStorage.setItem('searchQuery', searchQuery);
-    }
-    onSearchSubmit(searchQuery);
-  };
+
 
   return (
-    <form onSubmit={handleSearchSubmit}>
+    <form >
       <input
         type="text"
         value={searchQuery}
         onChange={handleSearchChange}
         placeholder="Поиск фильмов..."
       />
-      <button type="submit">Поиск</button>
+      <button type="button" >{isLoading ? 'Загрузка' : 'Поиск'}</button>
     </form>
   );
 };

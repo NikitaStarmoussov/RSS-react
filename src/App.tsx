@@ -1,6 +1,7 @@
 import React, { Component, ChangeEvent } from 'react';
 import Film from './types/types';
 import FilmList from './components/FilmList';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 interface AppProps {}
 
@@ -42,24 +43,21 @@ class App extends Component<AppProps, AppState> {
     this.setState({ searchQuery: event.target.value });
   };
 
-  handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    this.fetchFilms();
-  };
 
   render() {
     const { films, searchQuery, isLoading } = this.state;
 
     return (
-      <div>
+      <ErrorBoundary>
+        <div>
         <FilmList
-          films={films}
-          searchQuery={searchQuery}
-          isLoading={isLoading}
-          onSearchChange={this.handleSearchChange}
-          onSearchSubmit={this.handleSearchSubmit}
-        />
-      </div>
+            films={films}
+            searchQuery={searchQuery}
+            isLoading={isLoading}
+            onSearchChange={this.handleSearchChange}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }
