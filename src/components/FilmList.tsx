@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FilmListItem from "./FilmListItem";
 import SearchForm from "./SearchForm";
 import Item from "../types/types";
+import { Link } from "react-router-dom";
 // import * as SWApi from 'swapi-ts';
 // import { IStarship } from "swapi-ts";
 
@@ -32,9 +33,12 @@ function FilmList() {
 
   const fetchFilms = () => {
     setIsLoading(true);
+
+    const newOffset = (currentPage - 1) * itemLimit;
+    const newLimit = currentPage * itemLimit
   
-    fetch("https://pokeapi.co/api/v2/ability/?offset=0&limit=10")
-      .then((response) => response.json()) 
+    fetch(`https://pokeapi.co/api/v2/ability/?offset=${newOffset}&limit=${newLimit}`)
+      .then((response) => response.json())
       .then((data) => {
         console.log(data);
         const totalPages = Math.ceil(data.count / itemLimit);
@@ -44,7 +48,7 @@ function FilmList() {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Ошибка при получении фильмов:', error);
+        console.error("Ошибка при получении фильмов:", error);
         setIsLoading(false);
       });
   };
@@ -65,27 +69,28 @@ function FilmList() {
       <ul style={{ display: "flex" }}>{[...Array(totalPages)].map((_, i) => (
         <li key={i} style={{ margin: "0 2px", cursor: "pointer", textDecoration: i + 1 === currentPage ? "underline" : "none" }}>
           <button
-            onClick={() => setCurrentPage(i + 1)}
+            onClick={() => {setCurrentPage(i + 1)
+            fetchFilms()}}
             disabled={i + 1 === currentPage}
             
           >
-            {i + 1}
+            <Link to={`/?page=${i + 1}`}>{i + 1}</Link>
           </button>
         </li>
      
       ))}
       </ul>
       {isLoading ? (
-        <p>Loading...</p>
-      ) : items.length > 0 ? (
-        <ul>
-          {items.map((item) => (
-            <FilmListItem key={item.url} item={item} />
-          ))}
-        </ul>
-      ) : (
-        <p>No search results</p>
-      )}
+  <p>Загрузка...</p>
+) : items.length > 0 ? (
+  <ul key={items.length}>
+    {items.map((item) => (
+      <FilmListItem key={item.url} item={item} />
+    ))}
+  </ul>
+) : (
+  <p>Нет результатов поиска</p>
+)}
     </div>
   );
 }
