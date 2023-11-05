@@ -1,14 +1,14 @@
 import React from 'react';
 
-import FilmList, { fetchFilms } from './components/FilmList';
+import FilmList from './components/FilmList';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import {
   createBrowserRouter, 
-  createRoutesFromElements,
-  Route, 
+  // createRoutesFromElements,
+  // Route, 
   RouterProvider
 } from 'react-router-dom'
-import{ RootLayout } from './layout/RootLayout';
+// import{ RootLayout } from './layout/RootLayout';
 
 interface AppProps {}
 

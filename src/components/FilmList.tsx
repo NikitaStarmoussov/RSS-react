@@ -2,31 +2,33 @@ import React, { useState, useEffect } from "react";
 import FilmListItem from "./FilmListItem";
 import SearchForm from "./SearchForm";
 import Item from "../types/types";
-import * as SWApi from 'swapi-ts';
-import { IStarship } from "swapi-ts";
+// import * as SWApi from 'swapi-ts';
+// import { IStarship } from "swapi-ts";
 
-type FetchProps = (
-  search?: string | undefined,
-  page?: number
-) => void;
+// type FetchProps = (
+//   search?: string | undefined,
+//   page?: number
+// ) => void;
 
 function FilmList() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Item[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [query, setQuery] = useState<string | undefined>(localStorage.getItem('query') || '');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState(1)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemLimit, setItemLimit] = useState<number>(10);
 
-  function convertToItemArray(starships): Item[] {
-    return starships.map((starship) => {
-      return {
-        name: starship.name,
-        url: starship.url,
-        manufacturer: starship.manufacturer,
-      };
-    });
-  }
+  // function convertToItemArray(starships): Item[] {
+  //   return starships.map((starship) => {
+  //     return {
+  //       name: starship.name,
+  //       url: starship.url,
+  //       manufacturer: starship.manufacturer,
+  //     };
+  //   });
+  // }
 
   const fetchFilms = () => {
     setIsLoading(true);
@@ -50,11 +52,11 @@ function FilmList() {
   const searchSubmit = (query: string) => {
     setQuery(query);
     localStorage.setItem('query', query);
-    fetchFilms(query);
+    fetchFilms();
   };
 
   useEffect(() => {
-    fetchFilms(query);
+    fetchFilms();
   }, []);
 
   return (
