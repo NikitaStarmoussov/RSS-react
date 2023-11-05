@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import Button from './button';
+import Button from './Button';
 import Input from './Input';
 
 interface SearchFormProps {

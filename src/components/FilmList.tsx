@@ -14,8 +14,11 @@ function FilmList() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Item[]>([]);
   const [query, setQuery] = useState<string | undefined>(localStorage.getItem('query') || '');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState(1)
+  const [itemLimit, setItemLimit] = useState<number>(10);
 
-  function convertToItemArray(starships: IStarship[]): Item[] {
+  function convertToItemArray(starships): Item[] {
     return starships.map((starship) => {
       return {
         name: starship.name,
@@ -25,13 +28,17 @@ function FilmList() {
     });
   }
 
-  const fetchFilms: FetchProps = (search = undefined, page = 1) => {
+  const fetchFilms = () => {
     setIsLoading(true);
-    SWApi.Starships
-      .getPage(page, search)
+  
+    fetch("https://pokeapi.co/api/v2/ability/?offset=0&limit=10")
+      .then((response) => response.json()) 
       .then((data) => {
-        const items = convertToItemArray(data.results);
-        setItems(items);
+        console.log(data);
+        const totalPages = Math.ceil(data.count / itemLimit);
+        console.log(totalPages);
+        setTotalPages(totalPages);
+        setItems(data.results);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -53,6 +60,19 @@ function FilmList() {
   return (
     <div>
       <SearchForm isLoading={isLoading} onSearchSubmit={searchSubmit} />
+      <ul style={{ display: "flex" }}>{[...Array(totalPages)].map((_, i) => (
+        <li key={i} style={{ margin: "0 2px", cursor: "pointer", textDecoration: i + 1 === currentPage ? "underline" : "none" }}>
+          <button
+            onClick={() => setCurrentPage(i + 1)}
+            disabled={i + 1 === currentPage}
+            
+          >
+            {i + 1}
+          </button>
+        </li>
+     
+      ))}
+      </ul>
       {isLoading ? (
         <p>Loading...</p>
       ) : items.length > 0 ? (

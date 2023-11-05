@@ -1,7 +1,14 @@
 import React from 'react';
 
-import FilmList from './components/FilmList';
+import FilmList, { fetchFilms } from './components/FilmList';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import {
+  createBrowserRouter, 
+  createRoutesFromElements,
+  Route, 
+  RouterProvider
+} from 'react-router-dom'
+import{ RootLayout } from './layout/RootLayout';
 
 interface AppProps {}
 
@@ -9,14 +16,24 @@ interface AppProps {}
 
 const App: React.FC<AppProps> = () => {
 
+  const router = createBrowserRouter(
+[
+      {
+        path: '/',
+        element: <FilmList />,
+      },
+      {
+        path: '/:id',
+        element: <FilmList />,
+      },
+    ]
+  )
+
   
 
   return (
     <ErrorBoundary>
-      <div>
-        <FilmList
-        />
-      </div>
+      <RouterProvider router={router} />
     </ErrorBoundary>
   );
 };
