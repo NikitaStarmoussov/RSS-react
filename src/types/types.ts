@@ -1,7 +1,7 @@
-interface Film {
-    title: string;
+interface Item {
+    name: string;
     url: string;
-    opening_crawl: string;
+    manufacturer: string;
   }
   
-  export default Film;
+  export default Item;

@@ -1,21 +1,17 @@
-import Film from "../types/types";
+import Item from "../types/types";
 import React from 'react';
 
 interface FilmListItemProps {
-    film: Film;
-  }
-  
-  class FilmListItem extends React.Component<FilmListItemProps> {
-    render() {
-      const { film } = this.props;
-  
-      return (
-        <li key={film.url}>
-          <h3>{film.title}</h3>
-          <p>{film.opening_crawl}</p>
+  item: Item;
+}
+
+const FilmListItem: React.FC<FilmListItemProps> = ({ item }) => {
+    return (
+        <li key={item.url}>
+            <h3>{item.name}</h3>
+            <p>{item.manufacturer}</p>
         </li>
-      );
-    }
-  }
-  
-  export default FilmListItem;
+    );
+};
+
+export default FilmListItem;

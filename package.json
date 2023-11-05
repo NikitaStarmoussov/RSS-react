@@ -13,7 +13,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "prepare": "husky install"
-
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.22.0",
@@ -27,7 +26,8 @@
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "swapi-ts": "^1.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

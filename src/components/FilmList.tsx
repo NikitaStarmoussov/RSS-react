@@ -1,68 +1,71 @@
-import React, { ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import FilmListItem from "./FilmListItem";
 import SearchForm from "./SearchForm";
-import Film from "../types/types";
+import Item from "../types/types";
+import * as SWApi from 'swapi-ts';
+import { IStarship } from "swapi-ts";
 
-interface FilmListProps {
-  films: Film[];
-  searchQuery: string;
-  isLoading: boolean;
-  onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+type FetchProps = (
+  search?: string | undefined,
+  page?: number
+) => void;
 
-interface FilmListState {
-  filteredFilms: Film[];
-}
+function FilmList() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [items, setItems] = useState<Item[]>([]);
+  const [query, setQuery] = useState<string | undefined>(localStorage.getItem('query') || '');
 
-class FilmList extends React.Component<FilmListProps, FilmListState> {
-  constructor(props: FilmListProps) {
-    super(props);
-    this.state = {
-      filteredFilms: [],
-    };
+  function convertToItemArray(starships: IStarship[]): Item[] {
+    return starships.map((starship) => {
+      return {
+        name: starship.name,
+        url: starship.url,
+        manufacturer: starship.manufacturer,
+      };
+    });
   }
 
-  componentDidMount() {
-    this.filterFilms();
-  }
+  const fetchFilms: FetchProps = (search = undefined, page = 1) => {
+    setIsLoading(true);
+    SWApi.Starships
+      .getPage(page, search)
+      .then((data) => {
+        const items = convertToItemArray(data.results);
+        setItems(items);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Ошибка при получении фильмов:', error);
+        setIsLoading(false);
+      });
+  };
 
-  componentDidUpdate(prevProps: FilmListProps) {
-    if (prevProps.films !== this.props.films || prevProps.searchQuery !== this.props.searchQuery) {
-      this.filterFilms();
-    }
-  }
+  const searchSubmit = (query: string) => {
+    setQuery(query);
+    localStorage.setItem('query', query);
+    fetchFilms(query);
+  };
 
-  filterFilms() {
-    const { films, searchQuery } = this.props;
-    const filteredFilms = films.filter((film) =>
-      film.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    this.setState({ filteredFilms });
-  }
+  useEffect(() => {
+    fetchFilms(query);
+  }, []);
 
-  render() {
-    const { searchQuery, isLoading, onSearchChange } = this.props;
-    const { filteredFilms } = this.state;
-
-    return (
-      <div>
-        <SearchForm
-          searchQuery={searchQuery}
-          isLoading={isLoading}
-          onSearchChange={onSearchChange}
-        />
-        {filteredFilms.length > 0 ? (
-          <ul>
-            {filteredFilms.map((film) => (
-              <FilmListItem key={film.url} film={film} />
-            ))}
-          </ul>
-        ) : (
-          <p>Нет результатов поиска</p>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <SearchForm isLoading={isLoading} onSearchSubmit={searchSubmit} />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : items.length > 0 ? (
+        <ul>
+          {items.map((item) => (
+            <FilmListItem key={item.url} item={item} />
+          ))}
+        </ul>
+      ) : (
+        <p>No search results</p>
+      )}
+    </div>
+  );
 }
 
 export default FilmList;

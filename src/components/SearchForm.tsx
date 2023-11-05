@@ -1,43 +1,40 @@
-import React, { ChangeEvent } from 'react';
+import React, { FormEvent } from 'react';
+import Button from './button';
+import Input from './Input';
 
 interface SearchFormProps {
-  searchQuery: string;
+  onSearchSubmit: (query: string) => void
+
   isLoading: boolean;
-  onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-class SearchForm extends React.Component<SearchFormProps> {
-  state = {
-    searchQuery: localStorage.getItem('searchQuery') || '',
-  };
-
-  handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchQuery = event.target.value;
-    this.setState({ searchQuery });
-
-    if (searchQuery.trim() === '') {
-      localStorage.removeItem('searchQuery');
-    } else {
-      localStorage.setItem('searchQuery', searchQuery);
-    }
-  };
-
-  render() {
-    const { searchQuery } = this.state;
-    const { isLoading } = this.props;
-
-    return (
-      <form>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={this.handleSearchChange}
-          placeholder="Поиск фильмов..."
-        />
-        <button type="button">{isLoading ? 'Загрузка' : 'Поиск'}</button>
-      </form>
-    );
+const SearchForm: React.FC<SearchFormProps> = ({
+  onSearchSubmit,
+  isLoading
+}) => {
+  const [query, setQuery] = React.useState(()=> {
+    return localStorage.getItem('query') || '';
+  });
+  const searchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSearchSubmit(query);
+    
   }
-}
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+    localStorage.setItem('query', event.target.value);
+  }
+
+  return (
+    <form onSubmit={searchSubmit}>
+      <Input
+        value={query}
+        onChange={handleInputChange}
+        disabled={isLoading}
+      />
+      <Button disabled={isLoading}>Поиск</Button>
+    </form>
+  );
+};
 
 export default SearchForm;
