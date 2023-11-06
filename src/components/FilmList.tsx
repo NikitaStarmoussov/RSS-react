@@ -1,8 +1,8 @@
 import { useState } from "react";
-import FilmListItem from "./FilmListItem";
 import SearchForm from "./SearchForm";
 import Item from "../types/types";
 import { Link, useLoaderData, useNavigate} from "react-router-dom";
+import ProductModal from "./ProductModal";
 
 export async function itemsLoader({ request }: { request: Request }) {
   let page = Number(new URL(request.url).searchParams.get('page'));
@@ -32,18 +32,7 @@ type Response = {
 products: Item[]
 }
 
-    // export const itemsWithPageLoader = async (search: string) => {
-      
 
-    //   const page = Number(new URLSearchParams(search).get('page'));
-    //   const newOffset = (page - 1) * 10;
-    //   const newLimit = page * 10;
-    
-    //   const response = await fetch(`https://pokeapi.co/api/v2/ability/? skip=${newOffset}&limit=${newLimit}`);
-    //   const data = await response.json();
-    
-    //   return data;
-    // };
     
 
 
@@ -69,57 +58,76 @@ function getSearchQuery(addPage?:boolean, subtractPage?:boolean, newLimit?:numbe
   
 }
 function FilmList() {
-  const data = useLoaderData() 
-
-  const items = (data as Response).products
-
+  const data = useLoaderData();
+  const items = (data as Response).products;
   const [itemLimit, setItemLimit] = useState<number>(10);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Item | null>(null);
 
-  
-
-  
   const navigate = useNavigate();
+
   const searchSubmit = (query: string) => {
     navigate({
-      pathname: '/',
+      pathname: "/",
       search: getSearchQuery(undefined, undefined, undefined, query),
-    })
-  };
-  const changeLimit = (limit: number) => {
-    setItemLimit(limit)
-    navigate({
-      pathname: '/',
-      search: getSearchQuery( undefined, undefined, limit),
     });
-  }
+  };
 
+  const changeLimit = (limit: number) => {
+    setItemLimit(limit);
+    navigate({
+      pathname: "/",
+      search: getSearchQuery(undefined, undefined, limit),
+    });
+  };
+
+  const openModal = (product: Item) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div>
       <SearchForm isLoading={false} onSearchSubmit={searchSubmit} />
       <div>
-
-<select value={itemLimit} onChange={(e) => changeLimit(Number(e.target.value))}>
-  <option value="5">5</option>
-  <option value="10">10</option>
-  <option value="20">20</option>
-</select></div>
+        <select
+          value={itemLimit}
+          onChange={(e) => changeLimit(Number(e.target.value))}
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
       <div style={{ display: "flex" }}>
-      <Link to={{ pathname: '/', search: getSearchQuery(undefined, true)}}>Prev</Link>
-      <Link to={{ pathname: '/', search: getSearchQuery(true)}}>Next</Link>
-      
+        <Link to={{ pathname: "/", search: getSearchQuery(undefined, true) }}>
+          Prev
+        </Link>
+        <Link to={{ pathname: "/", search: getSearchQuery(true) }}>Next</Link>
       </div>
       {false ? (
-  <p>Загрузка...</p>
-) : items.length > 0 ? (
-  <ul key={items.length}>
-    {items.map((item) => (
-      <FilmListItem key={item.id} item={item} />
-    ))}
-  </ul>
-) : (
-  <p>Нет результатов поиска</p>
-)}
+        <p>Загрузка...</p>
+      ) : items.length > 0 ? (
+        <ul key={items.length}>
+          {items.map((item) => (
+            <li key={item.id} onClick={() => openModal(item)}>
+              {item.title}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Нет результатов поиска</p>
+      )}
+      {isModalOpen && (
+        <ProductModal
+          product={selectedProduct}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 }
