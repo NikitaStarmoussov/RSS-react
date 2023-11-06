@@ -39,7 +39,10 @@ products: Item[]
 function getSearchQuery(addPage?:boolean, subtractPage?:boolean, newLimit?:number, query?:string) {
   const url = window.location.search
   const params = new URLSearchParams(url)
-  const page = params.get('page')
+  let page = params.get('page')
+  if(!page){
+    page = "1"
+  }
   if(addPage){
     params.set('page', (Number(page) + 1).toString())
   }
