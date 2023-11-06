@@ -63,7 +63,8 @@ function getSearchQuery(addPage?:boolean, subtractPage?:boolean, newLimit?:numbe
 function FilmList() {
   const data = useLoaderData();
   const items = (data as Response).products;
-  const [itemLimit, setItemLimit] = useState<number>(10);
+  const params = new URLSearchParams(window.location.search);
+  const [itemLimit, setItemLimit] = useState<number>((params.get('limit') || '10') as unknown as number);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Item | null>(null);
 
@@ -112,9 +113,8 @@ function FilmList() {
         </Link>
         <Link to={{ pathname: "/", search: getSearchQuery(true) }}>Next</Link>
       </div>
-      {false ? (
-        <p>Загрузка...</p>
-      ) : items.length > 0 ? (
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      {items.length > 0 ? (
         <ul key={items.length}>
           {items.map((item) => (
             <li key={item.id} onClick={() => openModal(item)}>
@@ -131,6 +131,7 @@ function FilmList() {
           onClose={closeModal}
         />
       )}
+      </div>
     </div>
   );
 }
