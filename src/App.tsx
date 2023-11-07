@@ -6,11 +6,9 @@ import {
   createBrowserRouter, 
   createRoutesFromElements, 
   Route, 
-  // createRoutesFromElements,
-  // Route, 
+
   RouterProvider
 } from 'react-router-dom'
-// import{ RootLayout } from './layout/RootLayout';
 
 interface AppProps {}
 
@@ -22,23 +20,7 @@ const App: React.FC<AppProps> = () => {
     createRoutesFromElements(
       <Route path="/" loader={itemsLoader} element={<FilmList />}>
         <Route path=":page" loader={itemsLoader}  element={<FilmList />} />
-        {/* <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="careers" element={<CareersLayout />} errorElement={<CareersError />}>
-          <Route 
-            index 
-            element={<Careers />} 
-            loader={careersLoader}
-            // errorElement={<CareersError />}
-          />
-          <Route 
-            path=":id" 
-            element={<CareerDetails />}
-            loader={careerDetailsLoader}
-          />
-        </Route>
-  
-        <Route path="*" element={<NotFound />} /> */}
+        
       </Route>
     )
   )
