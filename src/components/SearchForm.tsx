@@ -1,6 +1,7 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useContext } from 'react';
 import Button from './Button';
 import Input from './Input';
+import { AppContext } from '../context/AppContext';
 
 interface SearchFormProps {
   onSearchSubmit: (query: string) => void
@@ -12,23 +13,24 @@ const SearchForm: React.FC<SearchFormProps> = ({
   onSearchSubmit,
   isLoading
 }) => {
-  const [query, setQuery] = React.useState(()=> {
-    return localStorage.getItem('query') || '';
-  });
+  const {searchQuery, setSearchQuery} = useContext(AppContext);
+  // const [query, setQuery] = React.useState(()=> {
+  //   return localStorage.getItem('query') || '';
+  // });
   const searchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSearchSubmit(query);
+    onSearchSubmit(searchQuery);
     
   }
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    setSearchQuery(event.target.value);
     localStorage.setItem('query', event.target.value);
   }
 
   return (
     <form onSubmit={searchSubmit}>
       <Input
-        value={query}
+        value={searchQuery}
         onChange={handleInputChange}
         disabled={isLoading}
       />

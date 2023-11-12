@@ -3,6 +3,7 @@ import SearchForm from "./SearchForm";
 import Item from "../types/types";
 import { Link, useLoaderData, useNavigate} from "react-router-dom";
 import ProductModal from "./ProductModal";
+import { AppContext } from "../context/AppContext";
 
 export async function itemsLoader({ request }: { request: Request }) {
   let page = Number(new URL(request.url).searchParams.get('page'));
@@ -94,7 +95,10 @@ function FilmList() {
     setIsModalOpen(false);
   };
 
+  const [searchQuery, setSearchQuery] = useState(localStorage.getItem('query') || '');
+
   return (
+    <AppContext.Provider value={{searchQuery, setSearchQuery}}>
     <div>
       <SearchForm isLoading={false} onSearchSubmit={searchSubmit} />
       <div>
@@ -133,6 +137,7 @@ function FilmList() {
       )}
       </div>
     </div>
+    </AppContext.Provider>
   );
 }
 

@@ -10,17 +10,19 @@ import {
   RouterProvider
 } from 'react-router-dom'
 
+
 interface AppProps {}
 
 
 
-const App: React.FC<AppProps> = () => {
 
+const App: React.FC<AppProps> = () => {
+  
   const router = createBrowserRouter(
     createRoutesFromElements(
+
       <Route path="/" loader={itemsLoader} element={<FilmList />}>
-        <Route path=":page" loader={itemsLoader}  element={<FilmList />} />
-        
+        <Route path=":page" loader={itemsLoader}  element={<FilmList />} />     
       </Route>
     )
   )
@@ -29,6 +31,7 @@ const App: React.FC<AppProps> = () => {
 
   return (
     <ErrorBoundary>
+      
       <RouterProvider router={router} />
     </ErrorBoundary>
   );
