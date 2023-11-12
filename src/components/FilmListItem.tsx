@@ -7,9 +7,9 @@ interface FilmListItemProps {
 
 const FilmListItem: React.FC<FilmListItemProps> = ({ item }) => {
     return (
-        <li key={item.url}>
-            <h3>{item.name}</h3>
-            <p>{item.manufacturer}</p>
+        <li >
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
         </li>
     );
 };
