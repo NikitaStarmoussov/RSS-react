@@ -14,9 +14,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   isLoading
 }) => {
   const {searchQuery, setSearchQuery} = useContext(AppContext);
-  // const [query, setQuery] = React.useState(()=> {
-  //   return localStorage.getItem('query') || '';
-  // });
   const searchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSearchSubmit(searchQuery);
