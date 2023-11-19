@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch } from '../../App';
 import { fetchItems } from '../../Helpers/api';
 import store from '../../store/store';
+import { useNavigate } from 'react-router-dom';
 // import { Navigate } from 'react-router-dom'
 
 
@@ -20,7 +21,9 @@ export default function SearchForm() {
   function handleSubmitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     dispatch(fetchItems({ query: searchQuery as string, newOffset: 0, limit: 10 }))
+    navigate(`/?q=${searchQuery}`)
   }
+  const navigate = useNavigate();
   return (
     <form onSubmit={handleSubmitForm}>
       <Input />

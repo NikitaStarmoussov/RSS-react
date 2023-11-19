@@ -10,17 +10,17 @@ export default function List() {
     const dispatch: AppDispatch = useDispatch();
     useEffect(() => {
       dispatch(fetchItems({ query: searchQuery as string, newOffset: 0, limit: 10 }));
-    }, [dispatch, searchQuery]);
+    }, [dispatch]);
 
 
-  const items = useSelector<ReturnType<typeof store.getState>>((state) => state.items.data);
+  const items  = useSelector<ReturnType<typeof store.getState>>((state) => state.items.data);
   const loading = useSelector<ReturnType<typeof store.getState>>((state) => state.items.loading);
 
   if (loading) {
     return <div>Loading...</div>;
   }
   console.log("data", items, loading)
-  if (!items) {
+  if ((items as Item[]).length === 0) {
     return <div>No items found</div>;
   }
 
