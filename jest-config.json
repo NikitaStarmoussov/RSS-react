@@ -4,7 +4,7 @@
     "transformIgnorePatterns": ["node_modules/(?!(@babel)/)"],
     "extensionsToTreatAsEsm": [".ts", ".tsx"],
     "testMatch": [
-      "**/__tests__/**/*.js",
+      "**/__tests__/**/*.(t|j)sx?(x)",  "**/?(*.)+(spec|test).ts",
       "**/?(*.)+(spec|test).js"
     ]
   }
