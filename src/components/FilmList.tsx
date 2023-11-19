@@ -62,7 +62,7 @@ function getSearchQuery(addPage?:boolean, subtractPage?:boolean, newLimit?:numbe
   
 }
 function FilmList() {
-  const data = useLoaderData();
+  const data = useLoaderData() || [];
   const items = (data as Response).products;
   const params = new URLSearchParams(window.location.search);
   const [itemLimit, setItemLimit] = useState<number>((params.get('limit') || '10') as unknown as number);
@@ -96,6 +96,7 @@ function FilmList() {
   };
 
   const [searchQuery, setSearchQuery] = useState(localStorage.getItem('query') || '');
+  
 
   return (
     <AppContext.Provider value={{searchQuery, setSearchQuery}}>
