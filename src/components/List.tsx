@@ -9,7 +9,7 @@ export default function List() {
     const searchQuery = useSelector<ReturnType<typeof store.getState>>((state) => state.search.value);
     const dispatch: AppDispatch = useDispatch();
     useEffect(() => {
-      dispatch(fetchItems({ query: searchQuery as string, newOffset: 0, limit: 10 }));
+      dispatch(fetchItems({ query: searchQuery as string, page: 1, limit: 10 }));
     }, [dispatch]);
 
 
@@ -19,7 +19,6 @@ export default function List() {
   if (loading) {
     return <div>Loading...</div>;
   }
-  console.log("data", items, loading)
   if ((items as Item[]).length === 0) {
     return <div>No items found</div>;
   }

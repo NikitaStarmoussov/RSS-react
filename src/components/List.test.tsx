@@ -20,6 +20,7 @@ describe('List component', () => {
     jest.spyOn(store, 'getState').mockReturnValue({
       search: { value: '' },
       items: { data: [], loading: false, error: null },
+      params: { page: 0, limit: 10 },
     });
 
     render(
@@ -35,6 +36,7 @@ describe('List component', () => {
     jest.spyOn(store, 'getState').mockReturnValue({
       search: { value: '' },
       items: { data: [{ id: 1, title: 'Item 1' }], loading: false, error: null },
+      params: { page: 0, limit: 10 },
     });
 
     render(
