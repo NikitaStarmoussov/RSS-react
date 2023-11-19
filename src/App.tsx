@@ -1,28 +1,34 @@
 import React from 'react';
 
-import FilmList, {itemsLoader } from './components/FilmList';
-import { ErrorBoundary } from './components/ErrorBoundary';
+
 import {
   createBrowserRouter, 
   createRoutesFromElements, 
   Route, 
-
   RouterProvider
 } from 'react-router-dom'
+import Main from './pages/Main';
+import Item from './components/Item';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { AnyAction } from 'redux';
+import { ItemsState } from './slices/itemsSlice';
+
 
 
 interface AppProps {}
-
+export type AppDispatch = ThunkDispatch<ItemsState, unknown, AnyAction>;
 
 
 
 const App: React.FC<AppProps> = () => {
   
+  
   const router = createBrowserRouter(
     createRoutesFromElements(
-
-      <Route path="/" loader={itemsLoader} element={<FilmList />}>
-        <Route path=":page" loader={itemsLoader}  element={<FilmList />} />     
+      <Route path="/"  element={<Main />}> 
+      <Route path='/*' element={<Item />} />
       </Route>
     )
   )
@@ -30,10 +36,9 @@ const App: React.FC<AppProps> = () => {
   
 
   return (
-    <ErrorBoundary>
-      
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </ErrorBoundary>
+    </Provider>
   );
 };
 
