@@ -8,7 +8,7 @@ import {
   RouterProvider
 } from 'react-router-dom'
 import Main from './pages/Main';
-import Item from './components/Item';
+import Item from '../react-next/src/components/Item';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { ThunkDispatch } from '@reduxjs/toolkit';

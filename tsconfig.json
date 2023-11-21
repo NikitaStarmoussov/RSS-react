@@ -17,7 +17,7 @@
     "types": ["node", "jest", "@testing-library/jest-dom"],
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "react-next/src/components"],
   // "references": [{ "path": "./tsconfig.node.json" }]
 }
 

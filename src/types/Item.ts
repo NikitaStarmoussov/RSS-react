@@ -1,7 +1,7 @@
 export interface Item {
-    id?: number;
-    title?: string;
-    description?: string;
+    id: number;
+    title: string;
+    description: string;
     price?: number;
     discountPercentage?: number;
     rating?: number;
@@ -9,5 +9,5 @@ export interface Item {
     brand?: string;
     category?: string;
     thumbnail?: string;
-    images?: string[];
+    images: string[];
   }

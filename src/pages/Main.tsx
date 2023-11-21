@@ -1,10 +1,10 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import List from '../components/List'
+import List from '../../react-next/src/components/List'
 
-import ItemLimit from '../components/ItemLimit'
-import Pagination from '../components/Pagination'
-import SearchForm from '../components/SearchForm/SearchForm'
+import ItemLimit from '../../react-next/src/components/ItemLimit'
+import Pagination from '../../react-next/src/components/Pagination'
+import SearchForm from '../../react-next/src/components/SearchForm/SearchForm'
 
 export default function Main() {
   return (
@@ -13,7 +13,6 @@ export default function Main() {
         <Pagination />
         <ItemLimit />
         <List />
-        <Outlet />
     </div>
   )
 }
