@@ -1,0 +1,10 @@
+{
+    "testEnvironment": "jsdom",
+    "transform": {"^.+\\.(js|jsx|ts|tsx)$": "babel-jest"},
+    "transformIgnorePatterns": ["node_modules/(?!(@babel)/)"],
+    "extensionsToTreatAsEsm": [".ts", ".tsx"],
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/?(*.)+(spec|test).js"
+    ]
+  }
