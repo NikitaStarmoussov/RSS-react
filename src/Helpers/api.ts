@@ -1,4 +1,4 @@
-import { Item } from "../types/Item";
+import { Item } from '../types/Item';
 
 export interface fetchItemsProps {
   query: string,

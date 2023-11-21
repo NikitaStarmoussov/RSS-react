@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useSearchParams } from 'next/navigation'
-import { fetchItem } from '../../../src/Helpers/api';
+import { fetchItem } from '../Helpers/api';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Item } from '../../../src/types/Item';
-import { fetchItems, fetchItemsProps } from '../../../src/Helpers/api';
+import { Item } from '../types/Item';
+import { fetchItems, fetchItemsProps } from '../Helpers/api';
 import Link from 'next/link';
 export default async function List({query, newOffset, limit}: fetchItemsProps) {
     const items = await fetchItems({ query, newOffset, limit });
