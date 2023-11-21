@@ -5,6 +5,7 @@ import styles from './page.module.css'
 import ItemLimit from '@/components/ItemLimit'
 import Pagination from '@/components/Pagination'
 import SearchForm from '@/components/SearchForm/SearchForm'
+import { getSearchParams } from '@/Helpers/getParams'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,6 +19,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // const {limit} = getSearchParams()
   return (
     <html lang="en">
       <body className={inter.className}>
