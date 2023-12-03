@@ -23,6 +23,7 @@ export interface CustomForm extends HTMLFormElement {
     age: number;
     email: string;
     password: string;
+    confirmPassword: string;
     gender: string;
     country: string;
     img: string;

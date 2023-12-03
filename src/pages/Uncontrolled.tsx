@@ -18,10 +18,11 @@ export default function Uncontrolled() {
       event.preventDefault();
       const target = event.currentTarget.elements;
       const file = target.picture.files?.[0];
-      console.log(file)
+
 
     if (file) {
       const reader = new FileReader();
+
       reader.onloadend = () => {
         const base64Data = reader.result as string;
         const data = {
@@ -55,7 +56,7 @@ export default function Uncontrolled() {
       const target = event.target
       const res = validation(validationName, target.value);
       
-      console.log(res)
+
       if(res.message){
   
         target.setCustomValidity(res.message);
@@ -103,7 +104,7 @@ export default function Uncontrolled() {
         <br />
   
         <label htmlFor="picture">Upload Picture:</label>
-        <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" />
+        <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required/>
         <br />
   
         <label htmlFor="country">Country:</label>

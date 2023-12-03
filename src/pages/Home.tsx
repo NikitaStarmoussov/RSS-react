@@ -5,7 +5,7 @@ import { User } from "../types";
 
 export default function Home() {
     const items  = useSelector<ReturnType<typeof store.getState>>((state) => state.search.data);
-    console.log(items);
+
     return <div>
       <h1>User</h1>
       <h2>Name: {(items as User).name}</h2>
