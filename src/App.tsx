@@ -140,7 +140,7 @@ function Uncontrolled() {
     return res
   }
  
-
+  const countries = useSelector<ReturnType<typeof store.getState>>((state) => state.countries);
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name:</label>
@@ -182,16 +182,12 @@ function Uncontrolled() {
 
       <label htmlFor="country">Country:</label>
       <select id="country" name="country" required>
-        <option value="">Select Country</option>
-        <option value="USA">USA</option>
-        <option value="India">India</option>
-        <option value="Australia">Australia</option>
-        <option value="UK">UK</option>
-        {/* {countries.map((country) => (
-          <option key={country.code} value={country.name}>
+      
+        {(countries as {id: number, name: string}[]).map((country) => (
+          <option key={country.id} value={country.name}>
             {country.name}
           </option>
-        ))} */}
+        ))}
       </select>
       <br />
 
