@@ -25,7 +25,7 @@ export interface CustomForm extends HTMLFormElement {
     password: string;
     gender: string;
     country: string;
-    img: ImageBitmap;
+    img: string;
   } 
   export   interface InputType {
     event: React.ChangeEvent<HTMLInputElement>;

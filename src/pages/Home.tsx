@@ -14,5 +14,6 @@ export default function Home() {
       <h2>Password: {(items as User).password}</h2>
       <h2>Gender: {(items as User).gender}</h2>
       <h2>Country: {(items as User).country}</h2>
+      <img src={(items as User).img } alt="Uploaded Image" />
     </div>
   }

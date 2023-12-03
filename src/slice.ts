@@ -7,6 +7,7 @@ const initialState = {data:{
     email:"",
     password: "",
     gender:"",
+    img:'',
     country: ""}
 };
 

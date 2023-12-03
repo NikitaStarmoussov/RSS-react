@@ -17,26 +17,37 @@ export default function Uncontrolled() {
     const handleSubmit = (event : FormEvent<CustomForm>) => {
       event.preventDefault();
       const target = event.currentTarget.elements;
-      const data = {
-        name: target.name.value,
-        age: target.age.value,
-        email: target.email.value,
-        password: target.password.value,
-        confirmPassword: target.confirmPassword.value,
-        gender: target.gender.value,
-        termsAccepted: target.termsAccepted.checked,
-        picture: target.picture.value,
-        country: target.country.value
+      const file = target.picture.files?.[0];
+      console.log(file)
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64Data = reader.result as string;
+        const data = {
+          name: target.name.value,
+          age: target.age.value,
+          email: target.email.value,
+          password: target.password.value,
+          confirmPassword: target.confirmPassword.value,
+          gender: target.gender.value,
+          termsAccepted: target.termsAccepted.checked,
+          img: base64Data,
+          country: target.country.value
+        };
+        
+        if(target.password.value !== target.confirmPassword.value){
+          target.confirmPassword.setCustomValidity("Passwords do not match");
+        } else{
+          dispatch(actions.changeData(data));
+          navigate( "/")
+        }
       };
-  
-      if(target.password.value !== target.confirmPassword.value){
-        target.confirmPassword.setCustomValidity("Passwords do not match");
-      } else{
-        dispatch(actions.changeData(data));
-        navigate( "/")
-      }
-  
+      reader.readAsDataURL(file);
+      
+      
     };
+  }
    
   
     const password = useRef<HTMLInputElement>(null)
