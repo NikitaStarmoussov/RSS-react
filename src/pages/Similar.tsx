@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ageSchema, countrySchema, emailSchema, genderSchema, nameSchema, passwordSchema, termsAcceptedSchema } from "../utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { actions } from "../slice";
 import { AppDispatch } from "../types";
+import store from "../store";
 
 
 interface IFormInput {
@@ -76,6 +77,8 @@ const schema = yup.object().shape({
 
   };
 
+  const countries = useSelector<ReturnType<typeof store.getState>>((state) => state.countries);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <label>Name</label>
@@ -106,7 +109,13 @@ const schema = yup.object().shape({
       </select>
       {errors.gender && <p>{errors.gender.message}</p>}
     <label>Country</label>
-      <input {...register("country")} />
+      <select {...register("country")} >
+      {(countries as {id: number, name: string}[]).map((country) => (
+            <option key={country.id} value={country.name}>
+              {country.name}
+            </option>
+          ))}
+      </select>
       {errors.country && <p>{errors.country.message}</p>}
     <br />
     <label>Terms Accepted</label>
@@ -118,6 +127,7 @@ const schema = yup.object().shape({
       <input {...register("image")} type="file" />
       {errors.image && <p>{errors.image.message}</p>}
     <br />
+    
       <input type="submit" />
     </form>
   );
